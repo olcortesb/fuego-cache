@@ -1,15 +1,16 @@
 package embedded
 
 import (
+	"testing"
+
 	cache "github.com/tomiok/fuego-cache/fuego"
 	"github.com/tomiok/fuego-cache/logs"
-	"testing"
 )
 
 func Test_Insert_and_get_InMemory(t *testing.T) {
 	c := cache.NewCache(cache.FuegoConfig{
 		DiskPersistence: true,
-		FileLocation:    "C:\\Users\\Tomás\\Downloads\\fuego.csv",
+		FileLocation:    "fuego.csv",
 		Mode:            "inMemory",
 	})
 	fuego := FuegoInMemory{
