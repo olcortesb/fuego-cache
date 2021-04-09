@@ -11,7 +11,7 @@ var _cache = NewCache(FuegoConfig{
 
 func Test_bulkGet(t *testing.T) {
 	populate(_cache)
-	keys := []interface{}{"test1", "test2"}
+	keys := []string{"test1", "test2"}
 	r := _cache.BulkGet(keys)
 
 	for _, value := range r {
@@ -25,13 +25,13 @@ func Test_bulkGet(t *testing.T) {
 
 func Test_bulkSet(t *testing.T) {
 	_cache.BulkSet(BulkEntry{entries: []e{{
-		key:   1,
+		key:   "1",
 		value: "1",
 	}, {
-		key:   2,
+		key:   "2",
 		value: "2",
 	}, {
-		key:   3,
+		key:   "3",
 		value: "3",
 	}}})
 	count := _cache.Count()
@@ -48,7 +48,7 @@ func Test_bulkDelete(t *testing.T) {
 	if count != 4 {
 		t.Fail()
 	}
-	keys := []interface{}{"test1", "test2"}
+	keys := []string{"test1", "test2"}
 	_cache.BulkDelete(keys)
 
 	count = _cache.Count()

@@ -24,7 +24,7 @@ func Test_cacheConstructor(t *testing.T) {
 func Test_SetAndGetOne(t *testing.T) {
 	fuegoCache := NewCache(defaultConfigs())
 
-	res, err := fuegoCache.SetOne(1, "1")
+	res, err := fuegoCache.SetOne("1", "1")
 
 	if err != nil {
 		t.Fail()
@@ -34,7 +34,7 @@ func Test_SetAndGetOne(t *testing.T) {
 		t.Fatal("cannot add")
 	}
 
-	value, err := fuegoCache.GetOne(1)
+	value, err := fuegoCache.GetOne("1")
 
 	if err != nil {
 		t.Fail()
@@ -48,9 +48,9 @@ func Test_SetAndGetOne(t *testing.T) {
 func Test_nothingInCache(t *testing.T) {
 	fuegoCache := NewCache(defaultConfigs())
 
-	_, _ = fuegoCache.SetOne(1, "value")
+	_, _ = fuegoCache.SetOne("1", "value")
 
-	_, err := fuegoCache.GetOne(2)
+	_, err := fuegoCache.GetOne("2")
 
 	if err == nil {
 		t.Error("it is supposed to be empty")
@@ -61,7 +61,7 @@ func Test_nothingInCache(t *testing.T) {
 func Test_DeleteOne(t *testing.T) {
 	fuegoCache := NewCache(defaultConfigs())
 
-	res, err := fuegoCache.SetOne(1, "hell there")
+	res, err := fuegoCache.SetOne("1", "hell there")
 
 	if res != "ok" {
 		t.Fail()
@@ -77,13 +77,13 @@ func Test_DeleteOne(t *testing.T) {
 		t.Fail()
 	}
 
-	res = fuegoCache.DeleteOne(2) //should be nil the response since 2 is not a key inserted
+	res = fuegoCache.DeleteOne("2") //should be nil the response since 2 is not a key inserted
 
 	if res != "nil" {
 		t.Fail()
 	}
 
-	res = fuegoCache.DeleteOne(1)
+	res = fuegoCache.DeleteOne("1")
 
 	if res != "ok" {
 		t.Fail()
@@ -100,7 +100,7 @@ func Test_expiredEntry(t *testing.T) {
 	ttlInSeconds := 3
 	fuegoCache := NewCache(defaultConfigs())
 
-	ok, err := fuegoCache.SetOne(1, "hello there", ttlInSeconds)
+	ok, err := fuegoCache.SetOne("1", "hello there", ttlInSeconds)
 
 	if err != nil {
 		t.Fatalf("test failed %s", err.Error())
@@ -110,7 +110,7 @@ func Test_expiredEntry(t *testing.T) {
 		t.Fatalf("error setting value %s", ok)
 	}
 
-	val, err := fuegoCache.GetOne(1)
+	val, err := fuegoCache.GetOne("1")
 
 	if ok != "ok" {
 		t.Fatalf("error setting value %s", ok)
@@ -122,7 +122,7 @@ func Test_expiredEntry(t *testing.T) {
 
 	time.Sleep(time.Second * 4) // 4 seconds
 
-	ok, err = fuegoCache.GetOne(1)
+	ok, err = fuegoCache.GetOne("1")
 
 	if err == nil {
 		t.Fail()
